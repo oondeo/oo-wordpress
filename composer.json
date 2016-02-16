@@ -8,6 +8,6 @@
   "require": {
     "php": ">=5.4",
     "johnpbloch/wordpress": "master",
-    "wp-cli/wp-cli":"*",
+    "wp-cli/wp-cli":"*"
   }
 }
