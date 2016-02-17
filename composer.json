@@ -11,6 +11,6 @@
     "wp-cli/wp-cli":"*"
   },
 "extra": {
-  "wordpress-install-dir": "./"
+  "wordpress-install-dir": "."
  }
 }
