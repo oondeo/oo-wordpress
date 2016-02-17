@@ -29,9 +29,5 @@ WSHEOF
 fi
 
 wp core download --locale=es_ES --path=$HOME
-wp core config --dbname='getenv("MYSQL_DATABASE")' --dbuser='getenv("MYSQL_USER")' --dbpass='getenv("MYSQL_PASSWORD")' --dbhost='getenv("MYSQL_SERVICE_HOST")' --skip-check
-sed -i "s/.getenv\(.*\)..\;/getenv\1);/g" wp-config.php
-wp core install --url=${APPLICATION_DOMAIN} --title=${APPLICATION_DOMAIN} --admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASSWORD} --admin_email=${WP_ADMIN_EMAIL}  --skip-email
-#wp theme install https://github.com/amon-ra/divi/archive/2.6.1.zip --activate
 
 ##oc new-app . -e APPLICATION_DOMAIN="wp-p1.dev.oondeo.es" -e WP_ADMIN_USER=admin -e WP_ADMIN_PASSWORD=admin -e WP_ADMIN_EMAIL="info@oondeo.es" -e MYSQL_DATABASE="sampledb" -e MYSQL_PASSWORD=qFFGTyhuRGPTgOXF -e MYSQL_USER=userMAD
