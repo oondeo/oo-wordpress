@@ -9,13 +9,29 @@ fi
 
 #[[ -d ./app/tmp ]] && chmod -R go+rw ./app/tmp
 
-# Get access to `cake` shell command for generating DB schema and migrations
-if [ -f ${HOME}/vendor/wp-cli/wp ]; then
-	ln -s ${HOME}/vendor/wp-cli/wp ${HOME}/bin/wp
+ln -s ${HOME}/vendor/bin ${HOME}/bin
+#add composer to path
+# if [ -f ${HOME}/composer.phar ]; then
+#     ln -s ${HOME}/composer.phar ${HOME}/bin/composer
+# fi
+# # Get access to `cake` shell command for generating DB schema and migrations
+# if [ -f ${HOME}/vendor/wp-cli/wp-cli/bin/wp ]; then
+#     mkdir -p ${HOME}/bin
+# 	ln -s ${HOME}/vendor/wp-cli/wp-cli/bin/wp ${HOME}/bin/wp
+
+# fi
+if [ -f ${HOME}/vendor/psy/psysh/bin/psysh ]; then
+    cat << WSHEOF > ${HOME}/bin/wpsh
+#!/bin/bash -e 
+wp --require=${HOME}/bin/psysh shell
+WSHEOF
+    chmod +x ${HOME}/bin/wpsh
 fi
 
+wp core download --locale=es_ES --path=$HOME
+wp core config --dbname='getenv("MYSQL_DATABASE")' --dbuser='getenv("MYSQL_USER")' --dbpass='getenv("MYSQL_PASSWORD")' --dbhost='getenv("MYSQL_SERVICE_HOST")' --skip-check
+sed -i "s/.getenv\(.*\)..\;/getenv\1);/g" wp-config.php
+wp core install --url=${APPLICATION_DOMAIN} --title=${APPLICATION_DOMAIN} --admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASSWORD} --admin_email=${WP_ADMIN_EMAIL}  --skip-email
+#wp theme install https://github.com/amon-ra/divi/archive/2.6.1.zip --activate
 
-# wp core config --dbname=${MYSQL_DATABASE} --dbuser=${MYSQL_USER} --dbpass=${MYSQL_PASSWORD} \
-#   --dbhost=${DATABASE_SERVICE_NAME}_${SERVICE_HOST} 
-# wp core install --url=${APPLICATION_DOMAIN} --title=${APPLICATION_DOMAIN} --admin_user=${WP_ADMIN_USER} \
-#   --admin_password=${WP_ADMIN_PASSWORD} --admin_email=${WP_ADMIN_EMAIL}  --skip-email
+##oc new-app . -e APPLICATION_DOMAIN="wp-p1.dev.oondeo.es" -e WP_ADMIN_USER=admin -e WP_ADMIN_PASSWORD=admin -e WP_ADMIN_EMAIL="info@oondeo.es" -e MYSQL_DATABASE="sampledb" -e MYSQL_PASSWORD=qFFGTyhuRGPTgOXF -e MYSQL_USER=userMAD

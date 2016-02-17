@@ -2,22 +2,22 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "cakephp-mysql-example",
+    "name": "wordpress-advanced",
     "annotations": {
-      "description": "An example CakePHP application with a MySQL database",
-      "tags": "instant-app,php,cakephp,mysql",
+      "description": "An example Wordpress application with a MySQL database",
+      "tags": "instant-app,php,wordpress,mysql,wp-cli,shell,psysh",
       "iconClass": "icon-php"
     }
   },
   "labels": {
-    "template": "cakephp-mysql-example"
+    "template": "wordpress-advanced"
   },
   "objects": [
     {
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "cakephp-mysql-example",
+        "name": "wordpress-advanced",
         "annotations": {
           "description": "Exposes and load balances the application pods"
         }
@@ -31,7 +31,7 @@
           }
         ],
         "selector": {
-          "name": "cakephp-mysql-example"
+          "name": "wordpress-advanced"
         }
       }
     },
@@ -39,13 +39,13 @@
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
-        "name": "cakephp-mysql-example"
+        "name": "wordpress-advanced"
       },
       "spec": {
         "host": "${APPLICATION_DOMAIN}",
         "to": {
           "kind": "Service",
-          "name": "cakephp-mysql-example"
+          "name": "wordpress-advanced"
         }
       }
     },
@@ -53,7 +53,7 @@
       "kind": "ImageStream",
       "apiVersion": "v1",
       "metadata": {
-        "name": "cakephp-mysql-example",
+        "name": "wordpress-advanced",
         "annotations": {
           "description": "Keeps track of changes in the application image"
         }
@@ -63,7 +63,7 @@
       "kind": "BuildConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "cakephp-mysql-example",
+        "name": "wordpress-advanced",
         "annotations": {
           "description": "Defines how to build the application"
         }
@@ -90,7 +90,7 @@
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "cakephp-mysql-example:latest"
+            "name": "wordpress-advanced:latest"
           }
         },
         "triggers": [
@@ -113,7 +113,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "cakephp-mysql-example",
+        "name": "wordpress-advanced",
         "annotations": {
           "description": "Defines how to deploy the application server"
         }
@@ -128,7 +128,7 @@
                 "command": [
                   "./migrate-database.sh"
                 ],
-                "containerName": "cakephp-mysql-example"
+                "containerName": "wordpress-advanced"
               }
             }
           }
@@ -139,11 +139,11 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "cakephp-mysql-example"
+                "wordpress-advanced"
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "cakephp-mysql-example:latest"
+                "name": "wordpress-advanced:latest"
               }
             }
           },
@@ -153,20 +153,20 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "cakephp-mysql-example"
+          "name": "wordpress-advanced"
         },
         "template": {
           "metadata": {
-            "name": "cakephp-mysql-example",
+            "name": "wordpress-advanced",
             "labels": {
-              "name": "cakephp-mysql-example"
+              "name": "wordpress-advanced"
             }
           },
           "spec": {
             "containers": [
               {
-                "name": "cakephp-mysql-example",
-                "image": "cakephp-mysql-example",
+                "name": "wordpress-advanced",
+                "image": "wordpress-advanced",
                 "ports": [
                   {
                     "containerPort": 8080
@@ -194,17 +194,21 @@
                     "value": "${DATABASE_PASSWORD}"
                   },
                   {
-                    "name": "CAKEPHP_SECRET_TOKEN",
-                    "value": "${CAKEPHP_SECRET_TOKEN}"
+                    "name": "WORDPRESS_ADMIN_USER",
+                    "value": "${WORDPRESS_ADMIN_USER}"
                   },
                   {
-                    "name": "CAKEPHP_SECURITY_SALT",
-                    "value": "${CAKEPHP_SECURITY_SALT}"
+                    "name": "WORDPRESS_ADMIN_PASSWORD",
+                    "value": "${WORDPRESS_ADMIN_PASSWORD}"
                   },
                   {
-                    "name": "CAKEPHP_SECURITY_CIPHER_SEED",
-                    "value": "${CAKEPHP_SECURITY_CIPHER_SEED}"
+                    "name": "WORDPRESS_THEMES",
+                    "value": "${WORDPRESS_THEMES}"
                   },
+                  {
+                    "name": "WORDPRESS_PLUGINS",
+                    "value": "${WORDPRESS_PLUGINS}"
+                  },                  
                   {
                     "name": "OPCACHE_REVALIDATE_FREQ",
                     "value": "${OPCACHE_REVALIDATE_FREQ}"
@@ -316,11 +320,12 @@
     {
       "name": "SOURCE_REPOSITORY_URL",
       "description": "The URL of the repository with your application source code",
-      "value": "https://github.com/openshift/cakephp-ex.git"
+      "value": "https://github.com/oondeo/oo-wordpress.git"
     },
     {
       "name": "SOURCE_REPOSITORY_REF",
-      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch"
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch",
+      "value": ""
     },
     {
       "name": "CONTEXT_DIR",
@@ -328,7 +333,7 @@
     },
     {
       "name": "APPLICATION_DOMAIN",
-      "description": "The exposed hostname that will route to the CakePHP service, if left blank a value will be defaulted.",
+      "description": "The exposed hostname that will route to the Wordpress service, if left blank a value will be defaulted.",
       "value": ""
     },
     {
@@ -355,7 +360,7 @@
     {
       "name": "DATABASE_USER",
       "description": "Database user name",
-      "value": "cakephp"
+      "value": "Wordpress"
     },
     {
       "name": "DATABASE_PASSWORD",
@@ -364,27 +369,30 @@
       "from": "[a-zA-Z0-9]{16}"
     },
     {
-      "name": "CAKEPHP_SECRET_TOKEN",
-      "description": "Set this to a long random string",
-      "generate": "expression",
-      "from": "[\\w]{50}"
+      "name": "WORDPRESS_ADMIN_USER",
+      "description": "Set this to desired admin user",
+      "value": "admin"
     },
     {
-      "name": "CAKEPHP_SECURITY_SALT",
-      "description": "Security salt for session hash",
+      "name": "WORDPRESS_ADMIN_PASSWORD",
+      "description": "Default wordpress password",
       "generate": "expression",
-      "from": "[a-zA-Z0-9]{40}"
+      "from": "[a-zA-Z0-9]{16}"
     },
     {
-      "name": "CAKEPHP_SECURITY_CIPHER_SEED",
-      "description": "Security cipher seed for session hash",
-      "generate": "expression",
-      "from": "[0-9]{30}"
+      "name": "WORDPRESS_THEMES",
+      "description": "Coma separated list of themes to install, last one is activated",
+      "value": "https://github.com/amon-ra/divi/archive/2.6.1.zip"
     },
+    {
+      "name": "WORDPRESS_PLUGINS",
+      "description": "Coma separated list of plugins to install",
+      "value": ""
+    },   
     {
       "name": "OPCACHE_REVALIDATE_FREQ",
       "description": "The How often to check script timestamps for updates, in seconds. 0 will result in OPcache checking for updates on every request.",
-      "value": "2"
+      "value": "0"
     }
   ]
 }
