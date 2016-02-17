@@ -325,7 +325,7 @@
     {
       "name": "SOURCE_REPOSITORY_REF",
       "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch",
-      "value": ""
+      "value": "divio"
     },
     {
       "name": "CONTEXT_DIR",
@@ -355,12 +355,14 @@
     {
       "name": "DATABASE_NAME",
       "description": "Database name",
-      "value": "default"
+      "generate": "expression",
+      "from": "wp[0-9]{5}"
     },
     {
       "name": "DATABASE_USER",
       "description": "Database user name",
-      "value": "Wordpress"
+      "generate": "expression",
+      "from": "wp[0-9]{5}"
     },
     {
       "name": "DATABASE_PASSWORD",
