@@ -16,5 +16,5 @@ fi
 
 wp core config --dbname=${MYSQL_DATABASE} --dbuser=${MYSQL_USER} --dbpass=${MYSQL_PASSWORD} \
   --dbhost=${DATABASE_SERVICE_NAME}_${SERVICE_HOST} 
-wp core install --url=${APPLICATION_DOMAIN} --title={APPLICATION_DOMAIN} --admin_user={WP_ADMIN_USER} \
+wp core install --url=${APPLICATION_DOMAIN} --title=${APPLICATION_DOMAIN} --admin_user=${WP_ADMIN_USER} \
   --admin_password=${WP_ADMIN_PASSWORD} --admin_email=${WP_ADMIN_EMAIL}  --skip-email
