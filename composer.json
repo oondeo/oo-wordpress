@@ -7,10 +7,6 @@
   ],
   "require": {
     "php": ">=5.4",
-    "johnpbloch/wordpress": "4.4.2",
     "wp-cli/wp-cli":"*"
-  },
-"extra": {
-  "wordpress-install-dir": "."
- }
+  }
 }
