@@ -325,7 +325,7 @@
     {
       "name": "SOURCE_REPOSITORY_REF",
       "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch",
-      "value": "divio"
+      "value": "divi"
     },
     {
       "name": "CONTEXT_DIR",
