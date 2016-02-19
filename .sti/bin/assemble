@@ -25,15 +25,15 @@ fi
 if [ -f vendor/psy/psysh/bin/psysh ]; then
     cat << WSHEOF > bin/wpsh
 #!/bin/bash -e 
-wp --require=${HOME}/bin/psysh shell
+wp --require=${HOME}/bin/psysh --path=www shell
 WSHEOF
     chmod +x ${HOME}/bin/wpsh
 fi
 
-mkdir -p ${CONTEXT_DIR}
-#cd ${CONTEXT_DIR}
-wp core download --locale=es_ES --path=${CONTEXT_DIR}
-wp core config --path=${CONTEXT_DIR} --dbname='getenv("DATABASE_NAME")' --dbuser='getenv("DATABASE_USER")' --dbpass='getenv("DATABASE_PASSWORD")' --dbhost='getenv(strtoupper(getenv("DATABASE_SERVICE_NAME"))."_SERVICE_HOST")' --skip-check
-sed -i "s/.getenv\(.*\)..\;/getenv\1);/g" ${CONTEXT_DIR}/wp-config.php
-chmod -R go+rw ${CONTEXT_DIR}
+mkdir -p www
+#cd www
+wp core download --locale=es_ES --path=www
+wp core config --path=www --dbname='getenv("DATABASE_NAME")' --dbuser='getenv("DATABASE_USER")' --dbpass='getenv("DATABASE_PASSWORD")' --dbhost='getenv(strtoupper(getenv("DATABASE_SERVICE_NAME"))."_SERVICE_HOST")' --skip-check
+sed -i "s/.getenv\(.*\)..\;/getenv\1);/g" www/wp-config.php
+chmod -R go+rw www
 ##oc new-app . -e APPLICATION_DOMAIN="wp-p1.dev.oondeo.es" -e WP_ADMIN_USER=admin -e WP_ADMIN_PASSWORD=admin -e WP_ADMIN_EMAIL="info@oondeo.es" -e MYSQL_DATABASE="sampledb" -e MYSQL_PASSWORD=qFFGTyhuRGPTgOXF -e MYSQL_USER=userMAD
