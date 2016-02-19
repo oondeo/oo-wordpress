@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wp core install --path=${CONTEXT_DIR} --url=${APPLICATION_DOMAIN} --title=${APPLICATION_DOMAIN} --admin_user=${WORDPRESS_ADMIN_USER} --admin_password=${WORDPRESS_ADMIN_PASSWORD} --admin_email=${WORDPRESS_ADMIN_EMAIL}  --skip-email
+#wp core install --path=${CONTEXT_DIR} --url=${APPLICATION_DOMAIN} --title=${APPLICATION_DOMAIN} --admin_user=${WORDPRESS_ADMIN_USER} --admin_password=${WORDPRESS_ADMIN_PASSWORD} --admin_email=${WORDPRESS_ADMIN_EMAIL}  --skip-email
 
 # first='0'
 # for i in $(echo $WORDPRESS_THEMES | tr "," "\n")
