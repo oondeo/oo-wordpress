@@ -342,7 +342,7 @@
     {
       "name": "CONTEXT_DIR",
       "description": "Set this to the relative path to your project if it is not in the root of your repository",
-      "value": "wwww"
+      "value": "www"
     },
     {
       "name": "APPLICATION_DOMAIN",
