@@ -198,6 +198,10 @@
                     "value": "${WORDPRESS_ADMIN_USER}"
                   },
                   {
+                    "name": "WORDPRESS_ADMIN_EMAIL",
+                    "value": "${WORDPRESS_ADMIN_EMAIL}"
+                  },                  
+                  {
                     "name": "WORDPRESS_ADMIN_PASSWORD",
                     "value": "${WORDPRESS_ADMIN_PASSWORD}"
                   },
@@ -375,6 +379,11 @@
       "description": "Set this to desired admin user",
       "value": "admin"
     },
+    {
+      "name": "WORDPRESS_ADMIN_EMAIL",
+      "description": "Set this to desired admin email",
+      "value": "webmaster@${APPLICATION_DOMAIN}"
+    },    
     {
       "name": "WORDPRESS_ADMIN_PASSWORD",
       "description": "Default wordpress password",

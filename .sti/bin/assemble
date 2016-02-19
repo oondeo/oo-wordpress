@@ -9,7 +9,9 @@ fi
 
 #[[ -d ./app/tmp ]] && chmod -R go+rw ./app/tmp
 
-ln -s ${HOME}/vendor/bin ${HOME}/bin
+# if [ -d ${HOME}/vendor/bin ]; then
+#     ln -s ${HOME}/vendor/bin ${HOME}/bin
+# fi
 #add composer to path
 # if [ -f ${HOME}/composer.phar ]; then
 #     ln -s ${HOME}/composer.phar ${HOME}/bin/composer
@@ -28,6 +30,10 @@ WSHEOF
     chmod +x ${HOME}/bin/wpsh
 fi
 
-wp core download --locale=es_ES --path=$HOME
-
+mkdir -p $HOME/www
+cd $HOME/www
+wp core download --locale=es_ES --path=$HOME/www
+wp core config --dbname='getenv("DATABASE_NAME")' --dbuser='getenv("DATABASE_USER")' --dbpass='getenv("DATABASE_PASSWORD")' --dbhost='getenv(strtoupper(getenv("DATABASE_SERVICE_NAME"))."_SERVICE_HOST")' --skip-check
+sed -i "s/.getenv\(.*\)..\;/getenv\1);/g" ${HOME}/www/wp-config.php
+chmod -R a+w ${HOME}/www
 ##oc new-app . -e APPLICATION_DOMAIN="wp-p1.dev.oondeo.es" -e WP_ADMIN_USER=admin -e WP_ADMIN_PASSWORD=admin -e WP_ADMIN_EMAIL="info@oondeo.es" -e MYSQL_DATABASE="sampledb" -e MYSQL_PASSWORD=qFFGTyhuRGPTgOXF -e MYSQL_USER=userMAD
