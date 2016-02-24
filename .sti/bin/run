@@ -1,0 +1,23 @@
+#!/bin/bash -e
+
+
+
+
+
+
+#cd www
+wp core download --locale=es_ES --path=www
+echo "installed wordpress"
+wp core config --path=www --dbname='getenv("DATABASE_NAME")' --dbuser='getenv("DATABASE_USER")' --dbpass='getenv("DATABASE_PASSWORD")' --dbhost='getenv(strtoupper(getenv("DATABASE_SERVICE_NAME"))."_SERVICE_HOST")' --skip-check
+sed -i "s/.getenv\(.*\)..\;/getenv\1);/g" www/wp-config.php
+cat www/wp-config.php
+echo "Finish configuration"
+# chmod -R go+rw www
+# echo "Fixed permisions"
+
+if [ -e /usr/local/sti/run ]; then
+  # old assemble location in previous php image versions
+  source /usr/local/sti/run
+else 
+  source ${STI_SCRIPTS_PATH}/run
+fi

@@ -120,7 +120,44 @@
       },
       "spec": {
         "strategy": {
-          "type": "Rolling"
+          "type": "Rolling",
+          "recreateParams": {
+          "pre": {
+              "failurePolicy": "Abort",
+              "execNewPod": {
+                "command": [
+                  "./migrate-database.sh"
+                ],
+                "env": [
+                  {
+                    "name": "APPLICATION_DOMAIN",
+                    "value": "${APPLICATION_DOMAIN}"
+                  },
+                  {
+                    "name": "WORDPRESS_THEMES",
+                    "value": "${WORDPRESS_THEMES}"
+                  },
+                  {
+                    "name": "WORDPRESS_PLUGINS",
+                    "value": "${WORDPRESS_PLUGINS}"
+                  }, 
+                  {
+                    "name": "WORDPRESS_ADMIN_USER",
+                    "value": "${WORDPRESS_ADMIN_USER}"
+                  },
+                  {
+                    "name": "WORDPRESS_ADMIN_EMAIL",
+                    "value": "${WORDPRESS_ADMIN_EMAIL}"
+                  },                  
+                  {
+                    "name": "WORDPRESS_ADMIN_PASSWORD",
+                    "value": "${WORDPRESS_ADMIN_PASSWORD}"
+                  }                  
+                ],                
+                "containerName": "wordpress-advanced"
+              }
+            }
+          }
         },
         "triggers": [
           {
@@ -160,11 +197,7 @@
                   {
                     "containerPort": 8080
                   }
-                ],
-                "volumeMounts": [{
-                    "name": "src-dev-dir",
-                    "mountPath": "/opt/app-root/src/www"
-                }],                
+                ],              
                 "env": [
                   {
                     "name": "APPLICATION_DOMAIN",
@@ -200,15 +233,7 @@
                   }
                 ]
               }
-            ],
-            "volumes": [                
-               {
-                  "name": "src-dev-dir",
-                  "persistentVolumeClaim": { 
-                    "claimName" : "pv0002"                    
-                  }
-               }
-            ]            
+            ]        
           }
         }
       }

@@ -17,3 +17,4 @@ for i in $(echo $WORDPRESS_PLUGINS | tr "," "\n")
 do
     wp plugin install --path=www $i
 done 
+

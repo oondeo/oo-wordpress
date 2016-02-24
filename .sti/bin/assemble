@@ -32,12 +32,4 @@ fi
 
 mkdir -p www
 #cd www
-wp core download --locale=es_ES --path=www
-echo "installed wordpress"
-wp core config --path=www --dbname='getenv("DATABASE_NAME")' --dbuser='getenv("DATABASE_USER")' --dbpass='getenv("DATABASE_PASSWORD")' --dbhost='getenv(strtoupper(getenv("DATABASE_SERVICE_NAME"))."_SERVICE_HOST")' --skip-check
-sed -i "s/.getenv\(.*\)..\;/getenv\1);/g" www/wp-config.php
-cat www/wp-config.php
-echo "Finish configuration"
-chmod -R go+rw www
-echo "Fixed permisions"
 ##oc new-app . -e APPLICATION_DOMAIN="wp-p1.dev.oondeo.es" -e WP_ADMIN_USER=admin -e WP_ADMIN_PASSWORD=admin -e WP_ADMIN_EMAIL="info@oondeo.es" -e MYSQL_DATABASE="sampledb" -e MYSQL_PASSWORD=qFFGTyhuRGPTgOXF -e MYSQL_USER=userMAD
