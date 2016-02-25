@@ -36,6 +36,23 @@
       }
     },
     {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}-claim"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },    
+    {
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
@@ -204,7 +221,9 @@
             "volumes": [                
                {
                   "name": "src-dev-dir",
-                  "emptyDir": {}
+                  "persistentVolumeClaim": {
+                    "claimName": "${APPLICATION_NAME}-claim"
+                  }
                }
             ]            
           }
@@ -329,6 +348,12 @@
       "value": ""
     },
     {
+      "name": "APPLICATION_NAME",
+      "description": "Name of web application",
+      "value": "wordpress-advanced",
+      "required": true
+    },    
+    {
       "name": "GITHUB_WEBHOOK_SECRET",
       "description": "A secret string used to configure the GitHub webhook",
       "generate": "expression",
@@ -388,6 +413,18 @@
       "description": "Coma separated list of plugins to install",
       "value": ""
     },   
+    {
+      "name": "VOLUME_CAPACITY",
+      "description": "Development dir capacity",
+      "value": "1Gi",
+      "required": true
+    },   
+    {
+      "name": "DATABASE_VOLUME_CAPACITY",
+      "description": "Database capacity",
+      "value": "1Gi",
+      "required": true
+    },
     {
       "name": "OPCACHE_REVALIDATE_FREQ",
       "description": "The How often to check script timestamps for updates, in seconds. 0 will result in OPcache checking for updates on every request.",
